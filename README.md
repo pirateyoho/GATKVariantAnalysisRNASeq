@@ -1,6 +1,6 @@
 
 # Scripts
-Scripts are numbered in the order they should be run.
+Scripts are numbered in the order they should be run. Scripts with the same number are meant to be run simultaneously.
 Scripts labeled 1-13 were used to prepare a panel of normals for variant analysis from whole exome sequencing data of canine blood. Scripts 14+ were used for performing variant analysis on bam files generated from bulk RNA-sequencing data from 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes, utilizing the panel of normals generated in steps 1-13.
 # Raw data
 ## Nas
