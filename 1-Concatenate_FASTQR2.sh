@@ -1,0 +1,58 @@
+#!/bin/bash
+
+#SBATCH --job-name=CatR2
+#SBATCH --nodes=1
+#SBATCH --ntasks=1       # modify this number to reflect how many cores you want to use (up to 24)
+#SBATCH --time=06:00:00   # set time; default = 4 hours
+#SBATCH --mail-type=BEGIN,END,FAIL,TIME_LIMIT   # Keep these two lines of code if you want an e-mail sent to you when it is complete.
+#SBATCH --mail-user=edlarsen@colostate.edu
+#SBATCH --output=catR2_%j.txt  # this will capture all output in a logfile with %j as the job #
+
+#export PATH=/projects/edlarsen@colostate.edu/bin:$PATH
+
+pthread=$1
+echo $pthead
+
+
+# purge all existing modules
+module purge
+
+#Concatenate Read 2
+cat BL142643_S61_L001_R2_001.fastq.gz BL142643_S61_L002_R2_001.fastq.gz BL142643_S95_L001_R2_001.fastq.gz > BL142643_cat_L001_R2_001.fastq.gz
+cat BL153154_S128_L001_R2_001.fastq.gz BL153154_S94_L001_R2_001.fastq.gz BL153154_S94_L002_R2_001.fastq.gz > BL153154_cat_L001_R2_001.fastq.gz
+cat BL154263_S63_L001_R2_001.fastq.gz BL154263_S63_L002_R2_001.fastq.gz BL154263_S97_L001_R2_001.fastq.gz > BL154263_cat_L001_R2_001.fastq.gz
+cat BL157282_S64_L001_R2_001.fastq.gz BL157282_S64_L002_R2_001.fastq.gz BL157282_S98_L001_R2_001.fastq.gz > BL157282_cat_L001_R2_001.fastq.gz
+cat BL160977_S65_L001_R2_001.fastq.gz BL160977_S65_L002_R2_001.fastq.gz BL160977_S99_L001_R2_001.fastq.gz > BL160977_cat_L001_R2_001.fastq.gz
+cat BL161182_S100_L001_R2_001.fastq.gz BL161182_S66_L001_R2_001.fastq.gz BL161182_S66_L002_R2_001.fastq.gz > BL161182_cat_L001_R2_001.fastq.gz
+cat BL161183_S60_L001_R2_001.fastq.gz BL161183_S60_L002_R2_001.fastq.gz BL161183_S94_L001_R2_001.fastq.gz > BL161183_cat_L001_R2_001.fastq.gz
+cat BL162275_S123_L001_R2_001.fastq.gz BL162275_S89_L001_R2_001.fastq.gz BL162275_S89_L002_R2_001.fastq.gz > BL162275_cat_L001_R2_001.fastq.gz
+cat BL162310_S114_L001_R2_001.fastq.gz BL162310_S80_L001_R2_001.fastq.gz BL162310_S80_L002_R2_001.fastq.gz > BL162310_cat_L001_R2_001.fastq.gz
+cat BL162313_S122_L001_R2_001.fastq.gz BL162313_S88_L001_R2_001.fastq.gz BL162313_S88_L002_R2_001.fastq.gz > BL162313_cat_L001_R2_001.fastq.gz
+cat BL162566_S101_L001_R2_001.fastq.gz BL162566_S67_L001_R2_001.fastq.gz BL162566_S67_L002_R2_001.fastq.gz > BL162566_cat_L001_R2_001.fastq.gz
+cat BL163508_S121_L001_R2_001.fastq.gz BL163508_S87_L001_R2_001.fastq.gz BL163508_S87_L002_R2_001.fastq.gz > BL163508_cat_L001_R2_001.fastq.gz
+cat BL163511_S120_L001_R2_001.fastq.gz BL163511_S86_L001_R2_001.fastq.gz BL163511_S86_L002_R2_001.fastq.gz > BL163511_cat_L001_R2_001.fastq.gz
+cat BL163514_S119_L001_R2_001.fastq.gz BL163514_S85_L001_R2_001.fastq.gz BL163514_S85_L002_R2_001.fastq.gz > BL163514_cat_L001_R2_001.fastq.gz
+cat BL165420_S127_L001_R2_001.fastq.gz BL165420_S93_L001_R2_001.fastq.gz BL165420_S93_L002_R2_001.fastq.gz > BL165420_cat_L001_R2_001.fastq.gz
+cat BL166083_S102_L001_R2_001.fastq.gz BL166083_S68_L001_R2_001.fastq.gz BL166083_S68_L002_R2_001.fastq.gz > BL166083_cat_L001_R2_001.fastq.gz
+cat BL166141_S118_L001_R2_001.fastq.gz BL166141_S84_L001_R2_001.fastq.gz BL166141_S84_L002_R2_001.fastq.gz > BL166141_cat_L001_R2_001.fastq.gz
+cat BL166330_S117_L001_R2_001.fastq.gz BL166330_S83_L001_R2_001.fastq.gz BL166330_S83_L002_R2_001.fastq.gz > BL166330_cat_L001_R2_001.fastq.gz
+cat BL167494_S116_L001_R2_001.fastq.gz BL167494_S82_L001_R2_001.fastq.gz BL167494_S82_L002_R2_001.fastq.gz > BL167494_cat_L001_R2_001.fastq.gz
+cat BL167524_S115_L001_R2_001.fastq.gz BL167524_S81_L001_R2_001.fastq.gz BL167524_S81_L002_R2_001.fastq.gz > BL167524_cat_L001_R2_001.fastq.gz
+cat BL168379_S103_L001_R2_001.fastq.gz BL168379_S69_L001_R2_001.fastq.gz BL168379_S69_L002_R2_001.fastq.gz > BL168379_cat_L001_R2_001.fastq.gz
+cat BL168653_S104_L001_R2_001.fastq.gz BL168653_S70_L001_R2_001.fastq.gz BL168653_S70_L002_R2_001.fastq.gz > BL168653_cat_L001_R2_001.fastq.gz
+cat BL169452_S105_L001_R2_001.fastq.gz BL169452_S71_L001_R2_001.fastq.gz BL169452_S71_L002_R2_001.fastq.gz > BL169452_cat_L001_R2_001.fastq.gz
+cat BL169939_S106_L001_R2_001.fastq.gz BL169939_S72_L001_R2_001.fastq.gz BL169939_S72_L002_R2_001.fastq.gz > BL169939_cat_L001_R2_001.fastq.gz
+cat BL169941_S107_L001_R2_001.fastq.gz BL169941_S73_L001_R2_001.fastq.gz BL169941_S73_L002_R2_001.fastq.gz > BL169941_cat_L001_R2_001.fastq.gz
+cat BL170787_S108_L001_R2_001.fastq.gz BL170787_S74_L001_R2_001.fastq.gz BL170787_S74_L002_R2_001.fastq.gz > BL170787_cat_L001_R2_001.fastq.gz
+cat BL171522_S62_L001_R2_001.fastq.gz BL171522_S62_L002_R2_001.fastq.gz BL171522_S96_L001_R2_001.fastq.gz > BL171522_cat_L001_R2_001.fastq.gz
+cat BL171980_S109_L001_R2_001.fastq.gz BL171980_S75_L001_R2_001.fastq.gz BL171980_S75_L002_R2_001.fastq.gz > BL171980_cat_L001_R2_001.fastq.gz
+cat BL172909_S129_L001_R2_001.fastq.gz BL172909_S95_L001_R2_001.fastq.gz BL172909_S95_L002_R2_001.fastq.gz > BL172909_cat_L001_R2_001.fastq.gz
+cat BL172911_S110_L001_R2_001.fastq.gz BL172911_S76_L001_R2_001.fastq.gz BL172911_S76_L002_R2_001.fastq.gz > BL172911_cat_L001_R2_001.fastq.gz
+cat BL172913_S111_L001_R2_001.fastq.gz BL172913_S77_L001_R2_001.fastq.gz BL172913_S77_L002_R2_001.fastq.gz > BL172913_cat_L001_R2_001.fastq.gz
+cat BL173539_S113_L001_R2_001.fastq.gz BL173539_S79_L001_R2_001.fastq.gz BL173539_S79_L002_R2_001.fastq.gz > BL173539_cat_L001_R2_001.fastq.gz
+cat BL173730_S130_L001_R2_001.fastq.gz BL173730_S96_L001_R2_001.fastq.gz BL173730_S96_L002_R2_001.fastq.gz > BL173730_cat_L001_R2_001.fastq.gz
+cat BL173989_S112_L001_R2_001.fastq.gz BL173989_S78_L001_R2_001.fastq.gz BL173989_S78_L002_R2_001.fastq.gz > BL173989_cat_L001_R2_001.fastq.gz
+cat BL180839_S125_L001_R2_001.fastq.gz BL180839_S91_L001_R2_001.fastq.gz BL180839_S91_L002_R2_001.fastq.gz > BL180839_cat_L001_R2_001.fastq.gz
+cat BL181102_S126_L001_R2_001.fastq.gz BL181102_S92_L001_R2_001.fastq.gz BL181102_S92_L002_R2_001.fastq.gz > BL181102_cat_L001_R2_001.fastq.gz
+cat BL181219_S124_L001_R2_001.fastq.gz BL181219_S90_L001_R2_001.fastq.gz BL181219_S90_L002_R2_001.fastq.gz > BL181219_cat_L001_R2_001.fastq.gz
+
