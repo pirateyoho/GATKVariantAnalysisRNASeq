@@ -1,7 +1,7 @@
 
 # Scripts
 Scripts are numbered in the order they should be run.
-Scripts labeled 1-11 were used to prepare a panel of normals for variant analysis from whole exome sequencing data of canine blood.
+Scripts labeled 1-13 were used to prepare a panel of normals for variant analysis from whole exome sequencing data of canine blood. Scripts 14+ were used for performing variant analysis on bam files generated from bulk RNA-sequencing data from 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes, utilizing the panel of normals generated in steps 1-13.
 # Raw data
 ## Nas
 M:\CHLab data\Sequencing Data\221011_ACUTE_WEX_Harris and M:\CHLab data\Sequencing Data\220505_ACUTE_WEX_HARRIS
