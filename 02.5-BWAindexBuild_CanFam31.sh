@@ -1,4 +1,5 @@
 #!/bin/bash
+### The purpose of this script is to create an index of the CanFam 3.1 reference genome for use with the BWA aligner.
 
 #SBATCH --job-name=BAMalignWES
 
