@@ -1,6 +1,6 @@
 #!/bin/bash
-# To loop through BAM files and submit a separate job to the Slurm scheduler to run Picard MarkDuplicates for each.
-## NOTE: This script must be run in a conda environment with picard installed.
+# To loop through BAM files and submit a separate job to the Slurm scheduler to run gatk MarkDuplicates for each.
+## NOTE: This script must be run in a conda environment with gatk4 installed.
 
 #SBATCH --job-name=LoopJobs
 #SBATCH --nodes=1
@@ -12,7 +12,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL
 #SBATCH --mail-user=edlarsen@colostate.edu
 
-# Loop through all bam files in the directory and submit a Picard MarkDuplicates job for each:
+# Loop through all bam files in the directory and submit a gatk MarkDuplicates job for each:
 for file in $(ls *.bam)
 do
 echo ${file}
