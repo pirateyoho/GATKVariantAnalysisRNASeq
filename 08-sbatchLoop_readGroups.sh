@@ -12,7 +12,7 @@
 #SBATCH --mail-type=BEGIN,END,FAIL,TIME_LIMIT
 #SBATCH --mail-user=edlarsen@colostate.edu
 
-# Loop through all bam files in the directory and submit a Picard AddOrReplaceReadGroups job for each:
+# Loop through all bam files in the directory and submit a gatk AddOrReplaceReadGroups job for each:
 for file in $(ls *.bam)
 do
 echo ${file}
