@@ -1,7 +1,7 @@
 # Background
 This repository contains scripts that were used for calling variants in canine RNA-sequencing data using the GATK pipeline: https://gatk.broadinstitute.org/hc/en-us. This repository is intended for internal use by members of the Clinical Hematopathology Laboratory at Colorado State University and their collaborators. 
 # Scripts
-Scripts are numbered in the order they were run. Scripts with the same number were run simultaneously.
+Scripts are numbered in the order they were run. Scripts with the same number were run simultaneously; most often, these consist of 1) an "sbatchLoop" script designed to submit a batch job to the job scheduler for each file in a directory, and 2) the script being executed in that job.
 Scripts labeled 1-13 were used to prepare a panel of normals for variant analysis from whole exome sequencing data of canine blood. Scripts 14+ were used for performing variant analysis on bam files generated from bulk RNA-sequencing data from 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes, utilizing the panel of normals generated in steps 1-13.
 # Software requirements
 Bash scripts (.sh) in this pipeline were run on the CURC Alpine supercomputer in a dedicated conda environment containing the software packages gatk4, picard, samtools, star, snpeff, and tabix.
