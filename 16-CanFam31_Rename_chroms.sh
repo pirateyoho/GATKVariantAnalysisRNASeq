@@ -5,7 +5,7 @@
 #SBATCH --job-name=RenameChrom
 
 #SBATCH --nodes=1
-#SBATCH --ntasks=32       # modify this number to reflect how many cores you want to use (up to 24)
+#SBATCH --ntasks=32       # modify this number to reflect how many cores you want to use (up to 32)
 #SBATCH --time=8:00:00   # set time; default = 4 hours
 #SBATCH --partition=amilan
 #SBATCH --qos=normal
