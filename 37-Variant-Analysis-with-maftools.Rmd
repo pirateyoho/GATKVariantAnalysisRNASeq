@@ -41,7 +41,7 @@ library(dplyr)
 ```
 
 # Data input
-Input: One concatenated .maf file of all 96 canine CD4+ PTCL samples. These files received only the "DP < 10" filter during the VariantFiltration step of the GATK pipeline. After conversion from vcf to maf, variants called as intronic or mediator effect were filtered out and excluded.
+Input: One concatenated .maf file of all samples.
 ```{r data-input}
 # set working directory
 setwd("/path/to/working/directory") # If you are a Windows user, you may have to swap the direction of your slashes from "\" to "/"
