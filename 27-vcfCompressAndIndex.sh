@@ -15,7 +15,7 @@
 #record data
  start=`date +%s`
  
-# loop through filtered and annotated vcf files, compressing each to vcf.gz format, then indexing.
-for file in *ann.vcf; do bgzip -c ${file} > ${file}.gz;
+# loop through filtered vcf files, compressing each to vcf.gz format, then indexing.
+for file in *.vcf; do bgzip -c ${file} > ${file}.gz;
 tabix -f -p vcf ${file}.gz
 done
