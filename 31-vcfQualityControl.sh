@@ -19,7 +19,7 @@
 vcf=${1}
 
 # Assign the sample ID portion of the vcf filename to a variable called 'name' and print it to the log file
-name=$(basename ${vcf} .vcf.gz); echo ${name}
+name=$(basename ${vcf} .vcf); echo ${name}
 
 # Run gatk CollectVariantCallingMetrics. DBSNP is a vcf file of known variants.
 gatk CollectVariantCallingMetrics \
