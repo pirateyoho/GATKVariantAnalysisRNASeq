@@ -16,7 +16,7 @@
  start=`date +%s`
  
 # Loop through vcf files and run gatk VariantsToTable on each
-for file in *filtered.ann.all.vcf.gz; do name=$(basename ${file} .vcf.gz); echo ${name};
+for file in *filtered.all.vcf.gz; do name=$(basename ${file} .vcf.gz); echo ${name};
 gatk VariantsToTable \
 -R ../../../../../../Input/GenomeData/CanFam31_FullGenome.fa \
 -V ${file} \
