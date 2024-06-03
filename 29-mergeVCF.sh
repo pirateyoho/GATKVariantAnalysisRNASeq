@@ -17,9 +17,9 @@
  
 
 # loop through samples and run gatk MergeVcf to merge the indel vcf and snp vcf for each sample
-for file in *.snps-filtered.ann.vcf.gz; do name=$(basename ${file} .snps-filtered.ann.vcf.gz); echo ${name};
+for file in *.snps-filtered.pass.vcf.gz; do name=$(basename ${file} .snps-filtered.pass.vcf.gz); echo ${name};
 gatk MergeVcfs \
--I ${name}.snps-filtered.ann.vcf.gz \
--I ${name}.indels-filtered.ann.vcf.gz \
--O ${name}.filtered.ann.all.vcf.gz
+-I ${name}.snps-filtered.pass.vcf.gz \
+-I ${name}.indels-filtered.pass.vcf.gz \
+-O ${name}.filtered.all.vcf.gz
 done
