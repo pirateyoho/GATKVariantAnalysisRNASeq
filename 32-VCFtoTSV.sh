@@ -16,11 +16,11 @@
  start=`date +%s`
  
 # Loop through vcf files and run gatk VariantsToTable on each
-for file in *filtered.all.vcf.gz; do name=$(basename ${file} .vcf.gz); echo ${name};
+for file in *vep.vcf; do name=$(basename ${file} .vep.vcf); echo ${name};
 gatk VariantsToTable \
 -R ../../../../../../Input/GenomeData/CanFam31_FullGenome.fa \
 -V ${file} \
 -F CHROM -F POS -F FILTER -F TYPE -GF AD -GF DP \
 --show-filtered \
--O ${name}.tsv 
+-O ${name}.variants.tsv 
 done
