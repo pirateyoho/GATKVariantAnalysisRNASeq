@@ -14,12 +14,14 @@
 
 #record data
  start=`date +%s`
- 
+
+# make output directory
+mkdir CombinedSNPandINDEL
 
 # loop through samples and run gatk MergeVcf to merge the indel vcf and snp vcf for each sample
-for file in *.snps-filtered.pass.vcf.gz; do name=$(basename ${file} .snps-filtered.pass.vcf.gz); echo ${name};
+for file in *.snps-filtered.pass.vcf; do name=$(basename ${file} .snps-filtered.pass.vcf); echo ${name};
 gatk MergeVcfs \
--I ${name}.snps-filtered.pass.vcf.gz \
--I ${name}.indels-filtered.pass.vcf.gz \
--O ${name}.filtered.all.vcf.gz
+-I ${name}.snps-filtered.pass.vcf \
+-I ${name}.indels-filtered.pass.vcf \
+-O CombinedSNPandINDEL/${name}.filtered.all.vcf
 done
