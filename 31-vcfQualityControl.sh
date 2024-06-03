@@ -5,7 +5,7 @@
 #SBATCH --job-name=vcfQC
 #SBATCH --nodes=1
 #SBATCH --ntasks=4
-#SBATCH --time=2:00:00 # in my experience, takes about 1 hr per vcf.gz file
+#SBATCH --time=2:00:00
 #SBATCH --partition=amilan
 #SBATCH --qos=normal
 #SBATCH --mail-type=FAIL,TIME_LIMIT
@@ -19,7 +19,7 @@
 vcf=${1}
 
 # Assign the sample ID portion of the vcf filename to a variable called 'name' and print it to the log file
-name=$(basename ${vcf} .vcf); echo ${name}
+name=$(basename ${vcf} .vep.vcf); echo ${name}
 
 # Run gatk CollectVariantCallingMetrics. DBSNP is a vcf file of known variants.
 gatk CollectVariantCallingMetrics \
