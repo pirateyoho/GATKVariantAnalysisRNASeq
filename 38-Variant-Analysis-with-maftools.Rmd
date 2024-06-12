@@ -198,7 +198,7 @@ oncoplot(
 
 Boxplot summarizes the overall distribution of different conversions, and stacked barplot shows fraction of conversions in each sample.
 
-### PTCLs
+### Tumors
 
 ```{r titv}
 mymaf.titv = titv(maf = mymaf,
@@ -282,7 +282,7 @@ mymaf_filtered <- filterMaf(mymaf, genes=varCTRL)
 
 Data visualization of only those genes that were mutated in tumor samples, and not in control samples.
 
-## Plotting MAF summary in PTCLs
+## Plotting MAF summary in Tumors
 
 Displays the number of variants in each tumor sample as a stacked barplot and variant types as a boxplot summarized by Variant_Classification.
 
