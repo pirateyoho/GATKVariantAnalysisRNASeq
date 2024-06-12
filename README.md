@@ -18,6 +18,8 @@ intervals.list is required for mutect2PON.sh.
 
 The 'List of filenames for GenomicsDBImport.txt' file was created for ease of pasting in -V {file1} -V {file2} -V {file3} etc. for the gatk GenomicsDBImport tool.
 
+The 'CanFam31_Rename_chromosomes.txt' is required by the 16-CanFam31_Rename_chroms.sh script to fix the format of the chromosome names in the broad_umass_canid_variants.1.2.vcf.gz file linked below.
+
 WES_filenames_version3.txt contains a list of .fastq filenames for whole exome sequencing data on normal canine blood.
 
 Other required files include:
