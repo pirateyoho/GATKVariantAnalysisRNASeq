@@ -1,5 +1,5 @@
 #!/bin/sh
-# Purpose: To convert vcf to map files using the vcf2maf tool. Should be done after running Ensembl Variant Effect Predictor on vcf files.
+# Purpose: To convert vcf to maf files using the vcf2maf tool. Should be done after running Ensembl Variant Effect Predictor on vcf files.
 # This script should be run locally in the directory where vcf2maf was installed
 
 # loop through vcf files and run vcf2maf on each
