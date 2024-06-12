@@ -14,4 +14,4 @@
 #SBATCH --output=RenameChrom_%j.txt  # this will capture all output in a logfile with %j as the job #
 
 
-bcftools annotate --rename-chrs Renam_chromosomes_file.txt broad_umass_canid_variants.1.2.vcf.gz | bgzip > rename.broad_umass_canid_variants.1.2.vcf.gz
+bcftools annotate --rename-chrs CanFam31_Rename_chromosomes_file.txt broad_umass_canid_variants.1.2.vcf.gz | bgzip > rename.broad_umass_canid_variants.1.2.vcf.gz
