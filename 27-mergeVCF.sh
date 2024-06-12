@@ -1,5 +1,5 @@
 #!/bin/bash
-# Purpose: To merge indel and snp vcf files for each sample into one vcf file. Should be performed after vcf filtration and QC steps.
+# Purpose: To merge indel and snp vcf files for each sample into one vcf file. Should be performed after vcf filtration steps.
 # NOTE: This script must be run in a conda environment with gatk4 installed. 
 
 #SBATCH --job-name=vcfMerge
