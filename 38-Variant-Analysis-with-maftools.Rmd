@@ -31,6 +31,10 @@ The purpose of this script is to perform variant analysis on maf files with maft
 ```{r install, eval=FALSE}
 # First time only
 BiocManager::install("maftools")
+install.packages("knitr")
+install.packages("dplyr")
+install.packages("VennDiagram")
+install.packages("ggplot2")
 ```
 
 ```{r package-load, results='hide', message=FALSE}
@@ -38,19 +42,30 @@ BiocManager::install("maftools")
 library(knitr)
 library(maftools)
 library(dplyr)
+library(VennDiagram)
+library(ggplot2)
 ```
 
 # Data input
-Input: One concatenated .maf file of all samples.
+
+Input: One concatenated .maf file of all tumor samples and one concatenated .maf file of all control samples.
+
 ```{r data-input}
 # set working directory
 setwd("/path/to/working/directory") # If you are a Windows user, you may have to swap the direction of your slashes from "\" to "/"
 
-# read maf file
-mymaf <- read.maf(maf = '/path/to/concatenated/maf/file')
+# read tumor maf file
+mymaf <- read.maf(maf = '/path/to/concatenated/tumor/maf/file')
+
+# read control maf file
+mymaf_ctrl <- read.maf(maf = '/path/to/concatenated/control/maf/file')
 ```
 
-Inspect maf object and export a summary:
+
+## Inspect maf object and export a summary:
+
+### Tumors
+
 ```{r sample-summary}
 # Print a table of the 20 samples with the highest number of variants
 sampleSummary <- getSampleSummary(mymaf)
@@ -63,12 +78,35 @@ topVariantGenes <- head(geneSummary, 20)
 kable(topVariantGenes)
 
 # Write maf summary to an output file
-write.mafSummary(maf = mymaf, basename = '/path/to/output/directory/Date_mafSummary')
+write.mafSummary(maf = mymaf, basename = '/path/to/output/directory/Date_mafSummary_tumors')
 ```
 
-# Visualization
-## Plotting MAF summary
+### Controls
+
+```{r sample-summary-ctrl}
+# Print a table of the 20 samples with the highest number of variants
+sampleSummary_ctrl <- getSampleSummary(mymaf_ctrl)
+first20Samples_ctrl <- head(sampleSummary_ctrl, 20)
+kable(first20Samples_ctrl)
+
+# Print a table of the top 20 mutated genes
+geneSummary_ctrl <- getGeneSummary(mymaf_ctrl)
+topVariantGenes_ctrl <- head(geneSummary_ctrl, 20)
+kable(topVariantGenes_ctrl)
+
+# Write maf summary to an output file
+write.mafSummary(maf = mymaf_ctrl, basename = 'path/to/output/directory/Date_mafsummary_controls')
+```
+
+
+# Initial data visualization
+
+## Plotting MAF summaries
+
 Displays the number of variants in each sample as a stacked barplot and variant types as a boxplot summarized by Variant_Classification.
+
+### Tumors
+
 ```{r plotmafsummary}
 plotmafSummary(maf = mymaf, 
                rmOutlier = TRUE, 
@@ -76,7 +114,23 @@ plotmafSummary(maf = mymaf,
                dashboard = TRUE, 
                titvRaw = FALSE)
 ```
-## Barplot of mutated genes
+
+
+### Controls
+
+```{r plotmafsummary-ctrl}
+plotmafSummary(maf = mymaf_ctrl, 
+               rmOutlier = TRUE, 
+               addStat = 'median', 
+               dashboard = TRUE, 
+               titvRaw = FALSE)
+```
+
+
+## Barplots of mutated genes
+
+### Tumors
+
 ```{r mafbarplot}
 mafbarplot(
   mymaf,
@@ -91,38 +145,61 @@ mafbarplot(
 )
 ```
 
-## Filter frequently called variants
-Remove all genes from the maf object that were called in 100% of the samples.
-```{r removeGenes, results='hide'}
-# filter the geneSummary data frame to include only those called in all samples
-subset_geneSummary <- geneSummary[geneSummary$MutatedSamples==96, ] # Replace '96' with the total number of samples in your maf file
-# create a vector of names of the genes called in all samples
-geneList <- subset_geneSummary$Hugo_Symbol 
-# use filterMaf tool to exclude these genes from the maf object
-mymaf_filtered <- filterMaf(mymaf, genes = geneList, )
-```
+### Controls
 
-## Oncoplot
-Oncoplot for the top ten mutated genes. Note: Variants annotated as Multi_Hit are those genes which are mutated more than once in the same sample.
-```{r oncoplot}
-oncoplot(maf = mymaf_filtered, top = 20)
-```
-
-## Oncoplot of oncogenic signaling pathway genes
-```{r}
-oncoplot(maf = mymaf_filtered, pathways = "sigpw", gene_mar = 8, fontSize = 0.6, topPathways = 2)
-```
-
-## Oncoplot of genes of interest
-```{r fusiongenes}
-geneList = c("Gene1", "Gene2", "Gene3", "Gene4", "Gene5")
-oncoplot(
-  maf = mymaf_filtered,
-  genes = geneList,
+```{r mafbarplot-ctrl}
+mafbarplot(
+  mymaf_ctrl,
+  n = 50,
+  genes = NULL,
+  color = NULL,
+  fontSize = 0.7,
+  includeCN = FALSE,
+  legendfontSize = 0.7,
+  borderCol = "#34495e",
+  showPct = TRUE
 )
 ```
+
+
+# Oncoplot of genes of interest
+
+### Tumors
+
+```{r genesofinterest, message=FALSE}
+# define list of genes
+genes <- c("GENE1", "GENE2", "GENE3")
+
+# subset tumor maf for only these genes
+mymaf_geneList <- subsetMaf(mymaf, genes=genes)
+
+# draw oncoplot
+oncoplot(
+  maf = mymaf_geneList,
+  genes = genes,
+)
+```
+
+### Controls
+
+```{r genesofinterest-ctrl, message=FALSE}
+# subset control maf for only these genes
+mymaf_ctrl_geneList <- subsetMaf(mymaf_ctrl, genes=genes)
+
+# draw oncoplot
+oncoplot(
+  maf = mymaf_ctrl_geneList,
+  genes = genes,
+)
+```
+
+
 ## Transition and Transversions
+
 Boxplot summarizes the overall distribution of different conversions, and stacked barplot shows fraction of conversions in each sample.
+
+### PTCLs
+
 ```{r titv}
 mymaf.titv = titv(maf = mymaf,
                   plot = FALSE,
@@ -131,39 +208,181 @@ mymaf.titv = titv(maf = mymaf,
 plotTiTv(res = mymaf.titv)
 ```
 
+### Controls
+
+```{r titv-ctrl}
+mymaf_ctrl.titv = titv(maf = mymaf_ctrl,
+                  plot = FALSE,
+                  useSyn = TRUE)
+# plot titv summary
+plotTiTv(res = mymaf_ctrl.titv)
+```
+
+
+# Compare variants called in both tumor and control samples
+
+## Venn Diagram
+
+```{r vennDiagram}
+# Read in the list of genes with variants in both groups
+varTUMOR <- geneSummary$Hugo_Symbol
+varCTRL <- geneSummary_ctrl$Hugo_Symbol
+
+# Prepare color palette
+library(RColorBrewer)
+myCol <- brewer.pal(8, "Pastel2")[c(1, 2)]
+
+# Create venn diagram of overlapping genes between the groups
+set.seed(1)
+venn1 <- venn.diagram(
+  x = list(varTUMOR, varCTRL),
+  category.names = c("TUMOR", "CONTROL"),
+  
+  # Output features
+  filename = NULL,
+  disable.logging = TRUE,
+  
+  # Title
+  main = "Genes with Variants Called",
+ main.cex = 1.5,
+ main.fontfamily = "sans",
+ main.fontface = "bold",
+  
+  # Circles
+  fill = c(alpha("#440154ff", 0.3), alpha('#21908dff', 0.3)),
+  lwd = 1,
+  col = c("#440154ff", '#21908dff'),
+  
+  # Numbers
+  cex=1.5,
+  fontfamly = "sans",
+  
+  # Categories
+  cat.cex = 1.5,
+  cat.fontfamily = "sans",
+ cat.fontface = "bold",
+  cat.dist = c(0.05, 0.05),
+  cat.pos = c(-27, 27),
+  cat.default.pos = "outer",
+  cat.col = c("#440154ff", '#21908dff'),
+  scaled = FALSE,
+)
+grid.newpage()
+grid.draw(venn1)
+```
+
+## Filter genes from tumor samples that were called in control samples
+
+```{r fitlervenn, message=FALSE}
+mymaf_filtered <- filterMaf(mymaf, genes=varCTRL)
+```
+
+
+# Data visualization after filtering
+
+Data visualization of only those genes that were mutated in tumor samples, and not in control samples.
+
+## Plotting MAF summary in PTCLs
+
+Displays the number of variants in each tumor sample as a stacked barplot and variant types as a boxplot summarized by Variant_Classification.
+
+```{r plotmafsummary-filtered}
+plotmafSummary(maf = mymaf_filtered, 
+               rmOutlier = TRUE, 
+               addStat = 'median', 
+               dashboard = TRUE, 
+               titvRaw = FALSE)
+```
+
+## Barplot of mutated genes in tumors
+
+```{r mafbarplot-filtered}
+mafbarplot(
+  mymaf_filtered,
+  n = 50,
+  genes = NULL,
+  color = NULL,
+  fontSize = 0.7,
+  includeCN = FALSE,
+  legendfontSize = 0.7,
+  borderCol = "#34495e",
+  showPct = TRUE
+)
+```
+
+
+## Oncoplots
+
+### Top tumor-specific mutated genes
+
+Oncoplot for the top 20 mutated genes after filtering out genes also called in control samples. Note: Variants annotated as Multi_Hit are those genes which are mutated more than once in the same sample.
+
+```{r oncoplot-filtered}
+oncoplot(maf = mymaf_filtered, top = 20)
+```
+
+### Oncoplot of genes of interest
+
+```{r genesofinterest-filtered, message=FALSE}
+# define list of genes
+genes <- c("GENE1", "GENE2", "GENE3")
+
+# draw oncoplot
+oncoplot(
+  maf = mymaf_filtered,
+  genes = genes,
+)
+```
+
+## Oncoplot of oncogenic signaling pathway genes
+
+```{r oncoplotsignaling-filtered, message=FALSE, fig.height=12, fig.width=10}
+oncoplot(maf = mymaf_filtered, pathways = "sigpw", gene_mar = 8, fontSize = 0.6, topPathways = 2)
+```
+
+
+## Transition and Transversions
+
+Boxplot summarizes the overall distribution of different conversions, and stacked barplot shows fraction of conversions in each sample.
+
+```{r titv-filtered}
+mymafFiltered.titv = titv(maf = mymaf_filtered,
+                  plot = FALSE,
+                  useSyn = TRUE)
+# plot titv summary
+plotTiTv(res = mymafFiltered.titv)
+```
+
+
 ## Rainfall plot
+
 Visualizes hypermutated genomic regions in cancer genomes by plotting inter variant distance on a linear genomic scale. "Kataegis" are defined as those genomic segments containing 6 or more consecutive mutations with an average inter-mutation distance of less than or equal to 1,00 bp 5.
-```{r rainfall}
-rainfallPlot(maf = mymaf,
+
+```{r rainfall-filtered, message=FALSE}
+rainfallPlot(maf = mymaf_filtered,
              detectChangePoints = TRUE,
+             tsb = NULL,
+             width = 10,
+             height = 5,
              pointSize = 0.4)
 ```
 
-## Plotting VAF
-```{r vafplot, eval=FALSE}
-plotVaf(maf = mymaf)
-```
 
 # Analysis
+
 ## Somatic interactions
+
 The somaticInteractions function performs pair-wise Fisher’s Exact test to detect signfiicant pairs of mutually exclusive or co-occurring sets of genes.
+
 ```{r}
 #exclusive/co-occurance event analysis on top 10 mutated genes. 
-somaticInteractions(maf = mymaf, top = 25, pvalue = c(0.05, 0.1))
+somaticInteractions(maf = mymaf_filtered, top = 25, pvalue = c(0.05, 0.1))
 ```
 
-## Detecting cancer driver genes based on positional clustering
-The concept behind the oncodrive algorithm is that most of the variants in cancer causing genes are enriched at a few specific loci ("hot spots"). This method takes advantage of such positions to identify cancer genes. Citation: Lawrence MS, Stojanov P, Mermel CH, Robinson JT, Garraway LA, Golub TR, Meyerson M, Gabriel SB, Lander ES, Getz G: Discovery and saturation analysis of cancer genes across 21 tumour types. Nature 2014, 505:495-501.
-```{r eval=FALSE}
-mymaf.sig = oncodrive(maf = mymaf, AACol = 'Protein_Change', minMut = 5, pvalMethod = 'zscore')
-
-# plot results
-plotOncodrive(res = mymaf.sig, fdrCutOff = 0.1, useFraction = TRUE, labelSize = 0.5)
-```
 
 # Citations
+
 ```{r}
 sessionInfo()
 citation()
 ```
-
