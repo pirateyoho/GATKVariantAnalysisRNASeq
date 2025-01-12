@@ -357,6 +357,12 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | zstandard                    | 0.22.0       | py310h1275a96_0     | conda-forge |
 | zstd                         | 1.5.5        | hfc55251_0          | conda-forge |
 
+The following were installed and run locally in a Macbook terminal:
+| Name          | Version |
+| ------------- | ------- |
+| ensembl-vep   | 111     |
+| vcf2maf       | 2.4     |
+
 The following packages were installed and run in RStudio (version 0.16.0) using R (version 4.4.0):
 | Name          | Version |
 | ------------- | ------- |
