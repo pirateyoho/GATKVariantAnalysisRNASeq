@@ -4,7 +4,12 @@ This repository contains scripts that were used for calling variants in canine R
 Scripts are numbered in the order they were run. Scripts with the same number were run simultaneously; most often, these consist of 1) an "sbatchLoop" script designed to submit a batch job to the job scheduler for each file in a directory, and 2) the script being executed in that job.
 Scripts labeled 1-13 were used to prepare a panel of normals (pon.vcf.gz) for variant analysis from whole exome sequencing data of canine blood. Scripts 14+ were used for performing variant analysis on bam files generated from bulk RNA-sequencing data from 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes, utilizing the panel of normals generated in steps 1-13.
 # Software requirements
-Bash scripts (.sh) in this pipeline were run on the CURC Alpine supercomputer in a dedicated conda environment containing the software packages gatk4 (v 4.4.0.0), picard (v 2.18.29), samtools (v 1.6), bwa (v 0.7.17), snpeff (v 5.2), and tabix (v 0.2.6).
+* gatk4 (v 4.4.0.0)
+* picard (v 2.18.29)
+* samtools (v 1.6)
+* bwa (v 0.7.17)
+* tabix (v 0.2.6)
+* R packages: maftools, RColorBrewer, ggplot2, dplyr, VennDiagram 
 # Supplementary files
 pon.vcf.gz and its associated index file (.tbi) provided in this repository were generated with scripts 1-13. You may use these provided files to skip scripts 1-13 and start directly with script 14 (picardDedup.sh).
 
@@ -28,7 +33,6 @@ M:\CHLab data\Sequencing Data\221011_ACUTE_WEX_Harris and M:\CHLab data\Sequenci
 O:\RSTOR-Avery\230728_ACUTE_WEX_HarrisA\230724_A00405_0714_BH55GNDSX7 and O:\RSTOR-Avery\230728_ACUTE_WEX_HarrisA\230801_A00405_0717_BH55FFDSX7
 # Raw RNA-seq BAM files
 This pipeline utilized BAM files of bulk RNA-seq data aligned to the CanFam3.1 reference genome for 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes. This data may be accessed here: https://drive.google.com/drive/folders/1-nK8wQdaxqEnkQVbfdiFNg59SuCtAsh5?usp=sharing.
-## 
 ## Sample details
 | Avery lab number | Experiment group                | Breed                          | Sex    | Age (yrs) | Sample location        |
 | ---------------- | ------------------------------- | ------------------------------ | ------ | --------- | ---------------------- |
