@@ -4,11 +4,13 @@ This repository contains scripts that were used for calling variants in canine R
 Scripts are numbered in the order they were run. Scripts with the same number were run simultaneously; most often, these consist of 1) an "sbatchLoop" script designed to submit a batch job to the job scheduler for each file in a directory, and 2) the script being executed in that job.
 Scripts labeled 1-13 were used to prepare a panel of normals (pon.vcf.gz) for variant analysis from whole exome sequencing data of canine blood. Scripts 14+ were used for performing variant analysis on bam files generated from bulk RNA-sequencing data from 96 canine CD4+ PTCLs, 2 sorted control CD4+ thymocytes, and 5 sorted CD4+ nodal lymphocytes, utilizing the panel of normals generated in steps 1-13.
 # Software requirements
-* gatk4 (v 4.4.0.0)
-* picard (v 2.18.29)
-* samtools (v 1.6)
-* bwa (v 0.7.17)
-* tabix (v 0.2.6)
+Full detailed list of packages and dependencies can be found at the end of this README.
+* gatk4 (v. 4.4.0.0)
+* picard (v. 2.18.29)
+* samtools (v. 1.6)
+* bcftools (v. 1.19) (*Recommended to install this into a separate conda environment with samtools v. 1.11 and activate this environment for any scripts in this pipeline using bcftools*)
+* bwa (v. 0.7.17)
+* tabix (v. 0.2.6)
 * R packages: maftools, RColorBrewer, ggplot2, dplyr, VennDiagram 
 # Supplementary files
 pon.vcf.gz and its associated index file (.tbi) provided in this repository were generated with scripts 1-13. You may use these provided files to skip scripts 1-13 and start directly with script 14 (picardDedup.sh).
@@ -147,38 +149,62 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | _libgcc_mutex                | 0.1          | conda_forge         | conda-forge |
 | _openmp_mutex                | 4.5          | 2_kmp_llvm          | conda-forge |
 | _openmp_mutex                | 4.5          | 2_gnu               | conda-forge |
+| _r-mutex                     | 1.0.1        | anacondar_1         | conda-forge |
 | alsa-lib                     | 1.2.10       | hd590300_0          | conda-forge |
 | bcftools                     | 1.19         | h8b25389_0          | bioconda    |
 | bedtools                     | 2.31.1       | hf5e1c6e_1          | bioconda    |
+| binutils_impl_linux-64       | 2.4          | hf600244_0          | conda-forge |
+| bwa                          | 0.7.17       | he4a0461_11         | bioconda    |
+| bwidget                      | 1.9.14       | ha770c72_1          | conda-forge |
 | bzip2                        | 1.0.8        | hd590300_5          | conda-forge |
 | ca-certificates              | 2024.6.2     | hbcca054_0          | conda-forge |
+| ca-certificates              | 2024.2.2     | hbcca054_0          | conda-forge |
 | cairo                        | 1.18.0       | h3faef2a_0          | conda-forge |
 | c-ares                       | 1.19.1       | h5eee18b_0          |             |
 | c-ares                       | 1.24.0       | hd590300_0          | conda-forge |
+| c-ares                       | 1.26.0       | hd590300_0          | conda-forge |
+| cffi                         | 1.16.0       | py310h2fee648_0     | conda-forge |
 | curl                         | 8.4.0        | hdbd6064_1          |             |
+| curl                         | 8.5.0        | hca28451_0          | conda-forge |
+| cutadapt                     | 4.6          | py310h4b81fae_1     | bioconda    |
+| dnaio                        | 1.2.0        | py310h4b81fae_0     | bioconda    |
 | expat                        | 2.5.0        | h6a678d5_0          |             |
+| expat                        | 2.5.0        | hcb278e6_1          | conda-forge |
+| fastqc                       | 0.12.1       | hdfd78af_0          | bioconda    |
 | fontconfig                   | 2.14.2       | h14ed4e7_0          | conda-forge |
 | fonts-anaconda               | 1            | h8fa9717_0          |             |
-| fonts-conda-ecosystem        | 1            | hd3eb1b0_0          |             |
-| font-ttf-dejavu-sans-mono    | 2.37         | hd3eb1b0_0          |             |
+| fonts-conda-ecosystem        | 1            | 0                   | conda-forge |
+| fonts-conda-forge            | 1            | 0                   | conda-forge |
+| font-ttf-dejavu-sans-mono    | 2.37         | hab24e00_0          | conda-forge |
 | font-ttf-inconsolata         | 2.001        | hcb22688_0          |             |
+| font-ttf-inconsolata         | 3            | h77eed37_0          | conda-forge |
 | font-ttf-source-code-pro     | 2.03         | hd3eb1b0_0          |             |
-| font-ttf-ubuntu              | 0.83         | h8b1ccd4_0          |             |
-| freetype                     | 2.12.1       | h4a9f257_0          |             |
+| font-ttf-source-code-pro     | 2.038        | h77eed37_0          | conda-forge |
+| font-ttf-ubuntu              | 0.83         | h77eed37_1          | conda-forge |
+| freetype                     | 2.12.1       | h267a509_2          | conda-forge |
+| fribidi                      | 1.0.10       | h36c2ea0_0          | conda-forge |
 | gatk4                        | 4.4.0.0      | py36hdfd78af_0      | bioconda    |
+| gcc_impl_linux-64            | 13.2.0       | h338b0a0_4          | conda-forge |
 | gettext                      | 0.21.1       | h27087fc_0          | conda-forge |
-| giflib                       | 5.2.1        | h5eee18b_3          |             |
+| gfortran_impl_linux-64       | 13.2.0       | h76e1118_4          | conda-forge |
+| giflib                       | 5.2.1        | h0b41bf4_3          | conda-forge |
 | graphite2                    | 1.3.14       | h295c915_1          |             |
+| graphite2                    | 1.3.13       | h58526e2_1001       | conda-forge |
 | gsl                          | 2.7          | he838d99_0          | conda-forge |
+| gxx_impl_linux-64            | 13.2.0       | h338b0a0_4          | conda-forge |
 | harfbuzz                     | 8.3.0        | h3d44ed6_0          | conda-forge |
 | htslib                       | 1.17         | h81da01d_2          | bioconda    |
 | htslib                       | 1.19         | h81da01d_0          | bioconda    |
 | icu                          | 73.2         | h59595ed_0          | conda-forge |
+| icu                          | 73.2         | h59595ed_0          | conda-forge |
+| isa-l                        | 2.31.0       | hd590300_1          | conda-forge |
+| kernel-headers_linux-64      | 2.6.32       | he073ed8_16         | conda-forge |
 | keyutils                     | 1.6.1        | h166bdaf_0          | conda-forge |
 | krb5                         | 1.20.1       | h143b758_1          |             |
 | krb5                         | 1.21.2       | h659d440_0          | conda-forge |
 | lcms2                        | 2.16         | hb7c19ff_0          | conda-forge |
 | ld_impl_linux-64             | 2.38         | h1181459_1          |             |
+| ld_impl_linux-64             | 2.4          | h41732ed_0          | conda-forge |
 | lerc                         | 4.0.0        | h27087fc_0          | conda-forge |
 | libblas                      | 3.9.0        | 20_linux64_openblas | conda-forge |
 | libcblas                     | 3.9.0        | 20_linux64_openblas | conda-forge |
@@ -189,8 +215,11 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | libedit                      | 3.1.20230828 | h5eee18b_0          |             |
 | libedit                      | 3.1.20191231 | he28a2e2_2          | conda-forge |
 | libev                        | 4.33         | hd590300_2          | conda-forge |
+| libexpat                     | 2.5.0        | hcb278e6_1          | conda-forge |
 | libffi                       | 3.4.4        | h6a678d5_0          |             |
+| libffi                       | 3.4.2        | h7f98852_5          | conda-forge |
 | libgcc                       | 7.2.0        | h69d50b8_2          |             |
+| libgcc-devel_linux-64        | 13.2.0       | ha9c7c90_104        | conda-forge |
 | libgcc-ng                    | 13.2.0       | h807b86a_3          | conda-forge |
 | libgfortran5                 | 13.2.0       | ha4646dd_3          | conda-forge |
 | libgfortran-ng               | 13.2.0       | h69a702a_3          | conda-forge |
@@ -198,11 +227,18 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | libgomp                      | 13.2.0       | h807b86a_3          | conda-forge |
 | libiconv                     | 1.17         | hd590300_2          | conda-forge |
 | libjpeg-turbo                | 3.0.0        | hd590300_1          | conda-forge |
+| liblapack                    | 3.9.0        | 21_linux64_openblas | conda-forge |
 | libnghttp2                   | 1.57.0       | h2d74bed_0          |             |
 | libnghttp2                   | 1.58.0       | h47da74e_1          | conda-forge |
+| libnsl                       | 2.0.1        | hd590300_0          | conda-forge |
 | libopenblas                  | 0.3.25       | pthreads_h413a1c8_0 | conda-forge |
+| libopenblas                  | 0.3.26       | pthreads_h413a1c8_0 | conda-forge |
 | libpng                       | 1.6.39       | h5eee18b_0          |             |
+| libsanitizer                 | 13.2.0       | h7e041cc_4          | conda-forge |
+| libsqlite                    | 3.44.2       | h2797004_0          | conda-forge |
 | libssh2                      | 1.11.0       | h0841786_0          | conda-forge |
+| libssh2                      | 1.11.0       | h0841786_0          | conda-forge |
+| libstdcxx-devel_linux-64     | 13.2.0       | ha9c7c90_104        | conda-forge |
 | libstdcxx-ng                 | 13.2.0       | h7e041cc_3          | conda-forge |
 | libtiff                      | 4.6.0        | ha9c0a0a_2          | conda-forge |
 | libuuid                      | 2.38.1       | h0b41bf4_0          | conda-forge |
@@ -213,12 +249,18 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | libzlib                      | 1.2.13       | hd590300_5          | conda-forge |
 | llvm-openmp                  | 14.0.6       | h9e868ea_0          |             |
 | lz4-c                        | 1.9.4        | h6a678d5_0          |             |
+| make                         | 4.3          | hd18ef5c_1          | conda-forge |
 | ncurses                      | 6.4          | h6a678d5_0          |             |
 | ncurses                      | 6.2          | h58526e2_4          | conda-forge |
+| ncurses                      | 6.4          | h59595ed_2          | conda-forge |
 | openjdk                      | 17.0.9       | h4260e57_0          | conda-forge |
+| openjdk                      | 17.0.10      | h4260e57_0          | conda-forge |
 | openssl                      | 3.3.1        | h4ab18f5_0          | conda-forge |
 | openssl                      | 3.3.0        | h4ab18f5_3          | conda-forge |
-| pcre2                        | 10.42        | hebb0a14_0          |             |
+| openssl                      | 3.2.1        | hd590300_0          | conda-forge |
+| pango                        | 1.50.14      | ha41ecd1_2          | conda-forge |
+| pbzip2                       | 1.1.13       | h1fcc475_2          | conda-forge |
+| pcre2                        | 10.42        | hcad00b1_0          | conda-forge |
 | perl                         | 5.32.1       | 7_hd590300_perl5    | conda-forge |
 | perl-archive-zip             | 1.68         | pl5321hdfd78af_0    | bioconda    |
 | perl-carp                    | 1.5          | pl5321hd8ed1ab_0    | conda-forge |
@@ -255,28 +297,50 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | perl-text-parsewords         | 3.31         | pl5321hd8ed1ab_0    | conda-forge |
 | perl-time-local              | 1.35         | pl5321hdfd78af_0    | bioconda    |
 | perl-version                 | 0.9929       | pl5321h166bdaf_0    | conda-forge |
-| picard                       | 2.18.29      | 0                   | bioconda    |
+| picard                       | 3.1.1        | hdfd78af_0          | bioconda    |
+| pigz                         | 2.8          | h2797004_0          | conda-forge |
 | pip                          | 23.3.1       | py39h06a4308_0      |
+| pip                          | 23.3.2       | pyhd8ed1ab_0        | conda-forge |
 | pixman                       | 0.42.2       | h59595ed_0          | conda-forge |
+| pixman                       | 0.43.0       | h59595ed_0          | conda-forge |
+| pthread-stubs                | 0.4          | h36c2ea0_1001       | conda-forge |
+| pycparser                    | 2.21         | pyhd8ed1ab_0        | conda-forge |
 | python                       | 3.9.18       | h955ad1f_0          |             |
-| readline                     | 8.2          | h5eee18b_0          |             |
+| python                       | 3.10.13      | hd12c33a_1_cpython  | conda-forge |
+| python_abi                   | 3.1          | 4_cp310             | conda-forge |
+| python-isal                  | 1.5.3        | py310h2372a71_0     | conda-forge |
+| r-base                       | 4.3.2        | hb8ee39d_2          | conda-forge |
+| readline                     | 8.2          | h8228510_1          | conda-forge |
 | samtools                     | 1.11         | h6270b1f_0          | bioconda    |
+| samtools                     | 1.6          | hc3601fc_10         | bioconda    |
+| sed                          | 4.8          | he412f7d_0          | conda-forge |
 | setuptools                   | 68.2.2       | py39h06a4308_0      |
+| setuptools                   | 69.0.3       | pyhd8ed1ab_0        | conda-forge |
 | snpeff                       | 5.2          | hdfd78af_0          | bioconda    |
 | snpsift                      | 5.2          | hdfd78af_0          | bioconda    |
 | sqlite                       | 3.41.2       | h5eee18b_0          |             |
+| sysroot_linux-64             | 2.12         | he073ed8_16         | conda-forge |
 | tabix                        | 0.2.6        | ha92aebf_0          | bioconda    |
 | tk                           | 8.6.12       | h1ccaba5_0          |             |
+| tk                           | 8.6.13       | noxft_h4845f30_101  | conda-forge |
+| tktable                      | 2.1          | h0c5db8f_5          | conda-forge |
+| trim-galore                  | 0.6.10       | hdfd78af_0          | bioconda    |
 | tzdata                       | 2023c        | h04d1e81_0          |             |
+| tzdata                       | 2023d        | h0c530f3_0          | conda-forge |
 | vcf2maf                      | 1.6.21       | hdfd78af_0          | bioconda    |
 | vcftools                     | 0.1.16       | pl5321hdcf5f25_10   | bioconda    |
 | wheel                        | 0.41.2       | py39h06a4308_0      |
+| wheel                        | 0.42.0       | pyhd8ed1ab_0        | conda-forge |
+| xopen                        | 1.8.0        | py310hff52083_0     | conda-forge |
 | xorg-fixesproto              | 5            | h7f98852_1002       | conda-forge |
 | xorg-inputproto              | 2.3.2        | h7f98852_1002       | conda-forge |
 | xorg-kbproto                 | 1.0.7        | h7f98852_1002       | conda-forge |
 | xorg-libice                  | 1.1.1        | hd590300_0          | conda-forge |
 | xorg-libsm                   | 1.2.4        | h7391055_0          | conda-forge |
 | xorg-libx11                  | 1.8.7        | h8ee46fc_0          | conda-forge |
+| xorg-libxau                  | 1.0.11       | hd590300_0          | conda-forge |
+| xorg-libxdmcp                | 1.1.3        | h7f98852_0          | conda-forge |
+| xorg-libxext                 | 1.3.4        | h0b41bf4_2          | conda-forge |
 | xorg-libxext                 | 1.3.4        | h0b41bf4_2          | conda-forge |
 | xorg-libxfixes               | 5.0.3        | h7f98852_1004       | conda-forge |
 | xorg-libxi                   | 1.7.10       | h7f98852_0          | conda-forge |
@@ -290,6 +354,7 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | xz                           | 5.4.5        | h5eee18b_0          |             |
 | xz                           | 5.2.6        | h166bdaf_0          | conda-forge |
 | zlib                         | 1.2.13       | hd590300_5          | conda-forge |
+| zstandard                    | 0.22.0       | py310h1275a96_0     | conda-forge |
 | zstd                         | 1.5.5        | hfc55251_0          | conda-forge |
 
 The following packages were installed and run in RStudio (version 0.16.0) using R (version 4.4.0):
