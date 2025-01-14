@@ -59,9 +59,10 @@ mymaf_ctrl <- read.maf(maf = 'Cohort_2/Input/AllCTRLs.CanFam31.QD2.vep.refiltere
 ## Inspect maf objects and export a summary
 ### PTCLs
 ```{r sample-summary}
-# Print a table of the 20 samples with the highest number of variants
+# Print a table of the 20 samples with the highest and lowest number of variants
 sampleSummary <- getSampleSummary(mymaf)
 first20Samples <- head(sampleSummary, 20)
+last20Samples <- tail(sampleSummary, 20)
 kable(first20Samples, caption = "Top 20 Canine CD4 PTCL Samples with Highest Number of Variants")
 
 # Print a table of the top 20 mutated genes
@@ -75,9 +76,10 @@ write.mafSummary(maf = mymaf, basename = 'Cohort_2/Output/CD4PTCL_maftools')
 
 ### Controls
 ```{r sample-summary-ctrl}
-# Print a table of the 20 samples with the highest number of variants
+# Print a table of the 20 samples with the highest and lowest number of variants
 sampleSummary_ctrl <- getSampleSummary(mymaf_ctrl)
 first20Samples_ctrl <- head(sampleSummary_ctrl, 20)
+last20Samples_ctrl <- tail(sampleSummary_ctrl, 20)
 kable(first20Samples_ctrl, caption = "Top 20 Canine CD4 Control Samples with Highest Number of Variants")
 
 # Print a table of the top 20 mutated genes
@@ -215,6 +217,7 @@ mymaf_PTCLgenes <- subsetMaf(mymaf, genes=genes)
 oncoplot(
   maf = mymaf_PTCLgenes,
   genes = genes,
+  color = var_cols,
   titleText = "Canine CD4+ PTCL Variants in Genes Commonly Mutated in Canine TCL"
 )
 ```
@@ -228,6 +231,7 @@ mymaf_ctrl_PTCLgenes <- subsetMaf(mymaf_ctrl, genes=genes)
 oncoplot(
   maf = mymaf_ctrl_PTCLgenes,
   genes = genes,
+  color = var_cols,
   titleText = "Canine CD4+ CTRL Variants in Genes Commonly Mutated in Canine TCL"
 )
 ```
@@ -245,6 +249,7 @@ mymaf_PTCLfusion <- subsetMaf(mymaf, genes = fusiongenes)
 oncoplot(
   maf = mymaf_PTCLfusion,
   genes = fusiongenes,
+  color = var_cols,
   titleText = "Canine CD4+ PTCL Variants Called in Fusion Partner Genes"
 )
 ```
@@ -258,6 +263,7 @@ mymaf_CTRLfusion <- subsetMaf(mymaf_ctrl, genes = fusiongenes)
 oncoplot(
   maf = mymaf_CTRLfusion,
   genes = fusiongenes,
+  color = var_cols,
   titleText = "Canine CD4+ CTRL Variants Called in Fusion Partner Genes"
 )
 ```
@@ -270,7 +276,7 @@ mymaf.titv = titv(maf = mymaf,
                   plot = FALSE,
                   useSyn = TRUE)
 # plot titv summary
-plotTiTv(res = mymaf.titv)
+plotTiTv(res = mymaf.titv, color = titvcols)
 ```
 
 ### Controls
@@ -279,40 +285,34 @@ mymaf_ctrl.titv = titv(maf = mymaf_ctrl,
                   plot = FALSE,
                   useSyn = TRUE)
 # plot titv summary
-plotTiTv(res = mymaf_ctrl.titv)
+plotTiTv(res = mymaf_ctrl.titv, color = titvcols)
 ```
 
 # Compare variants called in both tumor and control samples
 ## Venn Diagram
 ```{r vennDiagram, message=FALSE, warning=FALSE, error=FALSE, results='hide'}
-tumor_vars <- mymaf@data
-ctrl_vars <- mymaf_ctrl@data
 
-tumor_relevant_cols <- tumor_vars[, c("Hugo_Symbol", "Variant_Classification", "Tumor_Sample_Barcode")]
-#tumor_relevant_cols <- unique(tumor_relevant_cols)
-control_relevant_cols <- ctrl_vars[, c("Hugo_Symbol", "Variant_Classification", "Tumor_Sample_Barcode")]
-#control_relevant_cols <- unique(control_relevant_cols)
+tumor_data <- mymaf@data
+ctrl_data <- mymaf_ctrl@data
 
-# identify variants that exist in both tumor and control
-matching_vars <- merge(tumor_relevant_cols, control_relevant_cols, 
-                           by = c("Hugo_Symbol", "Variant_Classification"),
-                       allow.cartesian = TRUE)
+# select columns for matching
+tumor_vars <- tumor_data[, c("Chromosome", "Start_Position", "End_Position", "Variant_Classification", "Variant_Type")]
+ctrl_vars <- ctrl_data[, c("Chromosome", "Start_Position", "End_Position", "Variant_Classification", "Variant_Type")]
+
+# find common variants
+shared_variants <- merge(tumor_vars, ctrl_vars, 
+                         by = c("Chromosome", "Start_Position", "End_Position", "Variant_Classification", "Variant_Type"),
+                         allow.cartesian = TRUE)
 
 
 ##### Venn Diagram #####
+# Read in list of variants in both groups
+tumor_vars_unique <- unique(paste(tumor_vars$Chromosome, tumor_vars$Start_Position, tumor_vars$End_Position, tumor_vars$Variant_Classification, tumor_vars$Variant_Type))
 
-# Read in list of genes and variants in both groups
-varPTCL <- unique(paste(tumor_relevant_cols$Hugo_Symbol, tumor_relevant_cols$Variant_Classification))
-varCTRL <- unique(paste(control_relevant_cols$Hugo_Symbol, control_relevant_cols$Variant_Classification))
+ctrl_vars_unique <- unique(paste(ctrl_vars$Chromosome, ctrl_vars$Start_Position, ctrl_vars$End_Position, ctrl_vars$Variant_Classification, ctrl_vars$Variant_Type))
 
-# Prepare color palette
-library(RColorBrewer)
-myCol <- brewer.pal(8, "Pastel2")[c(1, 2)]
-
-# Create venn diagram of overlapping variants between the groups
-set.seed(1)
 venn1 <- venn.diagram(
-  x = list(varPTCL, varCTRL),
+  x = list(tumor_vars_unique, ctrl_vars_unique),
   category.names = c("CD4+ PTCL", "CD4+ CTRL"),
   
   # Output features
@@ -324,7 +324,7 @@ venn1 <- venn.diagram(
   main.cex = 1.5,
   main.fontfamily = "sans",
   main.fontface = "bold",
-
+  
   # Circles
   fill = c(alpha("#440154ff", 0.3), alpha('#21908dff', 0.3)),
   lwd = 1,
@@ -346,18 +346,23 @@ venn1 <- venn.diagram(
 )
 grid.newpage()
 grid.draw(venn1)
+
 ```
 
 ## Filter genes from tumor samples that were called in control samples
 ```{r fitlervenn, message=FALSE, results='hide'}
-#mymaf_filtered <- filterMaf(mymaf, genes=varCTRL)
+# filter tumor maf for shared variants
+shared_condition <- with(tumor_data, 
+                         paste(Chromosome, Start_Position, End_Position, Variant_Classification, Variant_Type) %in%
+                           paste(shared_variants$Chromosome, shared_variants$Start_Position, shared_variants$End_Position, 
+                                 shared_variants$Variant_Classification, shared_variants$Variant_Type))
 
-# Filter tumor maf based on both gene and variant type
-mymaf_filtered <- mymaf@data[!(paste(Hugo_Symbol, Variant_Classification) %in%
-                                 paste(matching_vars$Hugo_Symbol, matching_vars$Variant_Classification))]
+tumor_data_filtered <- tumor_data[!shared_condition, ]
 
-write.table(mymaf_filtered, file = "ptcl_unique_vars_only.maf", sep = "\t", quote = FALSE, row.names = FALSE)
-mymaf_filtered <- read.maf("ptcl_unique_vars_only.maf")
+mymaf_filtered <- read.maf(tumor_data_filtered)
+
+# export
+write.table(tumor_data_filtered, file = "ptcl_unique_vars_only.maf", sep = "\t", quote = FALSE, row.names = FALSE)
 ```
 
 # Data visualization after filtering
@@ -442,6 +447,7 @@ oncoplot(
 oncoplot(
   maf = mymaf_filtered,
   genes = genes,
+  color = var_cols,
   titleText = "Canine CD4+ PTCL-Specific Variants in Genes Commonly Mutated in Canine TCL"
 )
 ```
@@ -451,6 +457,7 @@ oncoplot(
 oncoplot(
   maf = mymaf_filtered,
   genes = fusiongenes,
+  color = var_cols,
   titleText = "Canine CD4+ PTCL-Specific Variants Called in Fusion Partner Genes"
 )
 ```
@@ -463,7 +470,7 @@ mymafFiltered.titv = titv(maf = mymaf_filtered,
                   plot = FALSE,
                   useSyn = TRUE)
 # plot titv summary
-plotTiTv(res = mymafFiltered.titv)
+plotTiTv(res = mymafFiltered.titv, color = titvcols)
 ```
 
 
@@ -485,7 +492,6 @@ for (barcode in top5){
 ```
 
 
-# Analysis
 ## Somatic interactions
 The somaticInteractions function performs pair-wise Fisher’s Exact test to detect signfiicant pairs of mutually exclusive or co-occurring sets of genes.
 ```{r fig.width=12, message=FALSE, results='hide'}
