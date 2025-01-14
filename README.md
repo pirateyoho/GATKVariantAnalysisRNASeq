@@ -368,7 +368,7 @@ The following packages were installed and run in RStudio (version 0.16.0) using 
 | ------------- | ------- |
 | RColorBrewer  | 1.1-3   |
 | futile.logger | 1.4.3   |
-| knitr         | 1.46    |
+| knitr         | 1.49    |
 | ggplot2       | 3.5.1   |
 | dplyr         | 1.1.4   |
 | VennDiagram   | 1.7.3   |
