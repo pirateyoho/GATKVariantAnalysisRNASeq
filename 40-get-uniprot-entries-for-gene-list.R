@@ -5,7 +5,7 @@
 #remotes::install_github("VoisinneG/queryup")
 
 library(queryup)
-genes <- c("MTOR", "PTEN", "SATB1", "MYC", "BCL11B", "BCL6", "STAT3", "DNMT3A", "TNFAIP3", "TET2", "FYN", "IBTK", "FASLG", "KMT2D", "MAP2K1") # list of genes for lollipop plots
+genes <- c("TP53", "MTOR", "PTEN", "SATB1", "MYC", "BCL11B", "BCL6", "STAT3", "DNMT3A", "TNFAIP3", "TET2", "FYN", "IBTK", "FASLG", "KMT2D", "MAP2K1") # list of genes for lollipop plots
 
 # Acquire UniProt IDs for genes in gene list
 df <- query_uniprot(
