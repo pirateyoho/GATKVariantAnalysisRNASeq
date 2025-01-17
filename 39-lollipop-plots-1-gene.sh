@@ -4,7 +4,7 @@
 wget https://github.com/joiningdata/lollipops/releases/download/v1.7.2/lollipops_1.7.2_linux_amd64.tar.gz
 tar -xzf lollipops_1.7.2_linux_amd64.tar.gz
 
-# Space-delimited list of mutations for 1 gene from maf file
+# Space-delimited list of mutations for 1 gene. Can be found in the 'HGVSp_Short' column of maf file.
 ## Format: <AMINO><CODON><AMINO><#COLOR><@COUNT>
 mutations="V48A E198K@2 A439T V669A V744M W780R@3 C846Y"
 
