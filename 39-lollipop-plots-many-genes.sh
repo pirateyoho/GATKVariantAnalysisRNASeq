@@ -10,7 +10,7 @@
 #SBATCH --mail-type=END,FAIL
 #SBATCH --mail-user=edlarsen@colostate.edu
 
-####### USAGE: $ sbatch draw_many_lollipop_plots.sh mutationList.csv and uniprotQuery.csv #######
+####### USAGE: $ sbatch lollipop-plots-many-genes.sh mutationList.csv and uniprotQuery.csv #######
 ## mutationsList.csv and uniprotQuery.csv should be the output of the R script 'get-uniprot-entries-for-gene-list.R'
 
 ####### FIRST TIME ONLY #######
