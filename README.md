@@ -11,7 +11,7 @@ Full detailed list of packages and dependencies can be found at the end of this 
 * bcftools (v. 1.19) (*Recommended to install this into a separate conda environment with samtools v. 1.11 and activate this environment for any scripts in this pipeline using bcftools*)
 * bwa (v. 0.7.17)
 * tabix (v. 0.2.6)
-* R packages: maftools, RColorBrewer, ggplot2, dplyr, VennDiagram 
+* R packages: maftools, RColorBrewer, ggplot2, dplyr, VennDiagram, queryup
 # Supplementary files
 pon.vcf.gz and its associated index file (.tbi) provided in this repository were generated with scripts 1-13. You may use these provided files to skip scripts 1-13 and start directly with script 14 (picardDedup.sh).
 
@@ -357,6 +357,11 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | zstandard                    | 0.22.0       | py310h1275a96_0     | conda-forge |
 | zstd                         | 1.5.5        | hfc55251_0          | conda-forge |
 
+The following package was git cloned and run from a terminal on the CU Research Computing Alpine High Performance Computing Cluster:
+| Name          | Version |
+| ------------- | ------- |
+| lollipops     | 1.7.2   |
+
 The following were installed and run locally in a Macbook terminal:
 | Name          | Version |
 | ------------- | ------- |
@@ -373,3 +378,4 @@ The following packages were installed and run in RStudio (version 0.16.0) using 
 | dplyr         | 1.1.4   |
 | VennDiagram   | 1.7.3   |
 | maftools      | 2.20.0  |
+| queryup       | 1.0.5   |
