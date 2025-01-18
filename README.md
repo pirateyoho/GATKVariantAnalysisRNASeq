@@ -357,7 +357,7 @@ The following packages were installed into conda (Anaconda, Inc.) environments o
 | zstandard                    | 0.22.0       | py310h1275a96_0     | conda-forge |
 | zstd                         | 1.5.5        | hfc55251_0          | conda-forge |
 
-The following package was git cloned and run from a terminal on the CU Research Computing Alpine High Performance Computing Cluster:
+The following application was downloaded from a Github repository ([https://github.com/joiningdata/lollipops](https://github.com/joiningdata/lollipops/releases), unpacked, and executed on the CU Research Computing Alpine High Performance Computing Cluster:
 | Name          | Version |
 | ------------- | ------- |
 | lollipops     | 1.7.2   |
