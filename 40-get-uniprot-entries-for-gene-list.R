@@ -1,5 +1,5 @@
 # Author: Eileen Owens
-# Purpose: Save Canis lupus familiaris Uniprot IDs to tsv file for use in lollipops
+# Purpose: Save Canis lupus familiaris Uniprot IDs to csv file for use in lollipops
 
 # First time only:
 #remotes::install_github("VoisinneG/queryup")
